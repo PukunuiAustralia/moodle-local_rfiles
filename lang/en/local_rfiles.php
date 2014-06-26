@@ -26,6 +26,7 @@ $string['errorlocaldirectory'] = 'Could not find or create directory';
 $string['existingfiles'] = 'Existing Files';
 $string['filepattern'] = 'File pattern';
 $string['freq15min'] = '15 minutes';
+$string['freqasap'] = '1 minute';
 $string['freqday'] = 'Daily';
 $string['freqhour'] = 'Hourly';
 $string['frequency'] = 'Frequency';

@@ -103,7 +103,8 @@ class rfiles_hostform extends moodleform {
         $mform->setType('sourceprocessdirectory', PARAM_PATH);
         $mform->disabledIf('sourceprocessdirectory', 'sourcefileaction', 'neq', RFILES_SRC_MOVE);
 
-        $freqoptions = array(   900 => get_string('freq15min', 'local_rfiles'),
+        $freqoptions = array(     1 => get_string('freqasap', 'local_rfiles'),
+                                900 => get_string('freq15min', 'local_rfiles'),
                                3600 => get_string('freqhour', 'local_rfiles'),
                               86400 => get_string('freqday', 'local_rfiles'),
                              604800 => get_string('freqweek', 'local_rfiles')
