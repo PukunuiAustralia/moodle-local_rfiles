@@ -207,7 +207,7 @@ class rfiles_host {
      * @return boolean
      */
     private function post_process_source_file($file) {
-        $desination = $this->config->sourceprocessdirectory.'/'.$file;
+        $destination = $this->config->sourceprocessdirectory.'/'.$file;
 
         switch ($this->config->sourcefileaction) {
             case RFILES_SRC_MOVE:
