@@ -144,7 +144,7 @@ class rfiles_host {
     private function transfer_push() {
         $count = 0;
         if ($this->loggedin) {
-            $transferfiles = $this->_list_transfer_files();
+            $transferfiles = $this->list_transfer_files();
             foreach ($transferfiles as $file) {
                 $localfile = $this->config->localdirectory.'/'.$file;
                 $remotefile = $this->config->remotedirectory.'/'.$file;
