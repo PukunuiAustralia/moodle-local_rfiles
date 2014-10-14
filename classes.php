@@ -299,6 +299,7 @@ class rfiles_host {
 
         $transferfiles = array();
         foreach ($sourcefiles as $file) {
+            $file = basename($file);
             switch ($this->config->existingfiles) {
                 case RFILES_EF_SOURCE:
                     $transferfiles[] = $file;
