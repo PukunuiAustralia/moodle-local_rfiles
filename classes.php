@@ -111,6 +111,18 @@ class rfiles_host {
     public function is_logged_in() {
         return $this->loggedin;
     }
+
+    /**
+     * Log an action. At present this uses mtrace but conceivably it could
+     * extended to write to a log file.
+     *
+     * @param string $message  log message
+     * @return void
+     */
+    protected function _log($message) {
+        $timestamp = date("Ymd-Hi");
+        mtrace("$timestamp: $message");
+    }
     
     /**
      * Perform the file transfer
@@ -178,6 +190,7 @@ class rfiles_host {
         if ($this->loggedin) {
             $transferfiles = $this->list_transfer_files();
             foreach ($transferfiles as $file) {
+                $this->_log("Transfer: $file");
                 $localfile = $this->config->localdirectory.'/'.$file;
                 $remotefile = $this->config->remotedirectory.'/'.$file;
                 if ($this->transfer_pull_file($remotefile, $localfile)) {
@@ -197,7 +210,13 @@ class rfiles_host {
      * @return boolean  success?
      */
     protected function transfer_pull_file($source, $destination) {
-        return @ftp_get($this->handler, $destination, $source, FTP_BINARY);
+        $size = @ftp_size($this->handler, $source);
+        if ($size != -1) {
+            $this->_log("Pull File: $source: $destination");
+            return @ftp_get($this->handler, $destination, $source, FTP_BINARY);
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -242,6 +261,7 @@ class rfiles_host {
      * @return boolean  success?
      */
     private function move_local_file($source, $destination) {
+        $this->_log("Moving Local File: $source: $destination");
         return rename($source, $destination);
     }
 
@@ -263,6 +283,7 @@ class rfiles_host {
      * @return boolean  success?
      */
     protected function move_remote_file($source, $destination) {
+        $this->_log("Moving Remote File: $source: $destination");
         return ftp_rename($this->handler, $source, $destination);
     }
 
@@ -340,7 +361,7 @@ class rfiles_host {
             }
             closedir($dh);
         }
-        return $files;
+        return array_unique($files);
     }
 
     /**
@@ -368,7 +389,7 @@ class rfiles_host {
                 }
             }
         }
-        return $files;
+        return array_unique($files);
     }
 
 }
