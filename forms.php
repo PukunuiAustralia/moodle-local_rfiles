@@ -65,7 +65,7 @@ class rfiles_hostform extends moodleform {
         $mform->setType('port', PARAM_INT);
 
         $mform->addElement('text', 'username', get_string('remoteusername', 'local_rfiles'), 'size="10"');
-        $mform->setType('username', PARAM_ALPHANUMEXT);
+        $mform->setType('username', PARAM_RAW);
 
         $mform->addElement('passwordunmask', 'password', get_string('remotepassword', 'local_rfiles'), 'size="10"');
         $mform->setType('password', PARAM_RAW);
