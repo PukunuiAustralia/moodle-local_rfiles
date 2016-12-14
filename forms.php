@@ -75,7 +75,7 @@ class rfiles_hostform extends moodleform {
         $mform->addRule('remotedirectory', $strrequired, 'required', '', 'client');
 
         $mform->addElement('text', 'localdirectory', get_string('localdirectory', 'local_rfiles'), 'size="40"');
-        $mform->setType('localdirectory', PARAM_PATH);
+        $mform->setType('localdirectory', PARAM_TEXT);
         $mform->addRule('localdirectory', $strrequired, 'required', '', 'client');
 
         $mform->addElement('text', 'pattern', get_string('filepattern', 'local_rfiles'), 'size="20"');
@@ -118,16 +118,6 @@ class rfiles_hostform extends moodleform {
     }
 
     /**
-     * Pre-process data before validation
-     *
-     * @param array $data  submitted form data
-     * @return array
-     */
-    private function preprocess($data) {
-        return $data;
-    }
-
-    /**
      * Validate data
      *
      * @param array $data  submitted form data
@@ -138,10 +128,25 @@ class rfiles_hostform extends moodleform {
         $errors = parent::validation($data, $files);
 
         // Check the local directory.
-        if (!check_dir_exists(rtrim($data['localdirectory'], '/'))) {
+        if ($data['localdirectory'] !== $this->_clean_file_path($data['localdirectory'])) {
+            $errors['localdirectory'] = get_string('errorlocaldirectoryformat', 'local_rfiles');
+        } else if (!check_dir_exists(rtrim($data['localdirectory'], '/'))) {
             $errors['localdirectory'] = get_string('errorlocaldirectory', 'local_rfiles');
         }
 
         return $errors;
     }
+
+    /**
+     * Internal function to check for valid characters in a directory path.
+     * We rely on this rather than PARAM_PATH so that we can have windows drive letters
+     * Assumption: the data is being cleaned by the param type PARAM_TEXT so there is no need to reproduce work.
+     * 
+     * @param string $param  the submitted directory path
+     * @return string
+     */
+    private function _clean_file_path($param) {
+        return preg_replace('/[^a-zA-Z0-9:\/\\\\_-]/i', '', $param);
+    }
+
 }
