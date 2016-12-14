@@ -23,6 +23,7 @@ $string['efdestination'] = 'Never overwrite';
 $string['eflatest'] = 'Keep latest';
 $string['efsource'] = 'Always overwrite';
 $string['errorlocaldirectory'] = 'Could not find or create directory';
+$string['errorlocaldirectoryformat'] = 'Invalid characters in directory path';
 $string['existingfiles'] = 'Existing Files';
 $string['filepattern'] = 'File pattern';
 $string['freq15min'] = '15 minutes';
